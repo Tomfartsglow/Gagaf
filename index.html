@@ -1,131 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bella Pizza Menu</title>
-    <style>
-        body {
-            font-family: 'Trebuchet MS', sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #fff8f0, #fbe4d0);
-            color: #333;
-        }
-        header {
-            background: linear-gradient(90deg, #b22222, #c83f3f);
-            color: white;
-            padding: 25px 0;
-            text-align: center;
-            font-size: 2em;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-        .item {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            border: 3px solid transparent;
-        }
-        .item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-color: #b22222;
-        }
-        .item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .item h3 {
-            margin: 15px 0 5px;
-            font-size: 1.25em;
-            color: #b22222;
-            text-align: center;
-        }
-        .item p {
-            font-size: 0.9em;
-            color: #555;
-            padding: 0 15px;
-            text-align: center;
-            line-height: 1.4em;
-        }
-        button {
-            display: block;
-            background: linear-gradient(90deg, #b22222, #d94a4a);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            margin: 15px auto 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        button:hover {
-            background: linear-gradient(90deg, #a11d1d, #c83f3f);
-            transform: scale(1.05);
-        }
-        footer {
-            background: #b22222;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 0.85em;
-            margin-top: 30px;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bella Pizza — Menu</title>
+<style>
+  :root{
+    --bg:#0f1720;           /* deep slate */
+    --card:#f8f5f0;         /* warm cream */
+    --muted:#9aa3a8;        /* muted text */
+    --accent:#b08a48;       /* warm gold */
+    --accent-2:#c66a3e;     /* terracotta */
+    --glass: rgba(255,255,255,0.06);
+    --radius:14px;
+    --gap:18px;
+    --elev: 0 10px 30px rgba(2,6,23,0.6);
+  }
+
+  /* base */
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background: linear-gradient(180deg,var(--bg), #07101a 140%);
+    color:var(--card);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.4;
+    padding:28px;
+    box-sizing:border-box;
+  }
+
+  /* container */
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+  }
+
+  /* Header */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:24px;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .brand h1{
+    margin:0;
+    font-size:20px;
+    color:var(--card);
+    letter-spacing:0.6px;
+    font-weight:600;
+  }
+  .brand p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* Cart button */
+  .cart-btn{
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.06);
+    color:var(--card);
+    padding:10px 14px;
+    border-radius:10px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    font-weight:600;
+    min-width:90px;
+    justify-content:center;
+  }
+  .cart-count{
+    background:var(--accent);
+    color:#0b0b0b;
+    padding:4px 8px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:13px;
+  }
+
+  /* Menu grid */
+  .menu{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+    gap:var(--gap);
+  }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    border-radius:var(--radius);
+    padding:16px;
+    box-shadow: var(--elev);
+    border:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:150px;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .card:active{ transform: translateY(2px) scale(.998); }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.7); }
+
+  .card .title{
+    font-size:16px;
+    color:var(--card);
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  .card .desc{
+    color:var(--muted);
+    font-size:13px;
+    margin:0 0 10px 0;
+  }
+
+  .meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .price{
+    font-weight:800;
+    color:var(--accent);
+    font-size:16px;
+  }
+
+  /* Add button */
+  .btn{
+    background: linear-gradient(90deg,var(--accent), var(--accent-2));
+    color:#0b0b0b;
+    border:none;
+    padding:10px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+    min-width:92px;
+    text-align:center;
+  }
+  .btn:active{ transform:translateY(1px); }
+
+  /* Cart drawer */
+  .cart-drawer{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:360px;
+    max-width:92%;
+    background: linear-gradient(180deg,#071318, #092026);
+    border-radius:12px;
+    box-shadow: 0 30px 80px rgba(2,6,23,0.6);
+    color:var(--card);
+    overflow:hidden;
+    transform: translateY(20px) scale(.995);
+    transition: all .22s cubic-bezier(.2,.9,.25,1);
+    border:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    flex-direction:column;
+    z-index:40;
+    opacity:0;
+    pointer-events:none;
+  }
+  .cart-drawer.open{ opacity:1; pointer-events:auto; transform: translateY(0) scale(1); }
+
+  .cart-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .cart-list{ padding:12px; max-height:320px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+
+  .cart-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background: rgba(255,255,255,0.01);
+    padding:10px;
+    border-radius:10px;
+  }
+  .cart-item .left{flex:1;}
+  .cart-item .name{ color:var(--card); font-weight:700; font-size:14px; }
+  .cart-item .sub{ color:var(--muted); font-size:13px; margin-top:6px; }
+
+  .qty-controls{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background: rgba(255,255,255,0.02);
+    padding:6px;
+    border-radius:8px;
+  }
+  .qty-controls button{
+    background:transparent;
+    border:none;
+    color:var(--card);
+    font-weight:700;
+    padding:6px 8px;
+    cursor:pointer;
+    font-size:15px;
+  }
+  .qty-num{ min-width:20px; text-align:center; font-weight:700; }
+
+  .cart-footer{
+    padding:12px 14px;
+    border-top:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .total{
+    color:var(--card);
+    font-weight:800;
+    font-size:16px;
+  }
+  .checkout-btn{
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 12px;
+    border-radius:9px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  /* modal overlay */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background: rgba(2,6,23,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:60;
+    opacity:0;
+    pointer-events:none;
+    transition: all .18s ease;
+  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  .modal{
+    width:92%;
+    max-width:720px;
+    background: linear-gradient(180deg,#071317,#0f2225);
+    border-radius:12px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.04);
+    color:var(--card);
+    box-shadow: 0 30px 70px rgba(2,6,23,0.7);
+  }
+  .modal h2{ margin:0 0 10px 0; font-size:18px; }
+  .modal .lines{ margin:12px 0 20px; color:var(--muted); font-size:14px; max-height:320px; overflow:auto; }
+  .modal .actions{ display:flex; gap:10px; justify-content:flex-end; }
+  .modal .primary{
+    background: linear-gradient(90deg,var(--accent), var(--accent-2));
+    color:#0b0b0b;
+    border:none;
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:800;
+  }
+  .modal .secondary{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.06);
+    color:var(--card);
+    padding:10px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  /* small screens adjustments */
+  @media (max-width:520px){
+    header{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .cart-drawer{ right:12px; left:12px; bottom:14px; width:auto; max-width:calc(100% - 24px); }
+  }
+</style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Bella Pizza</h1>
+        <p>Handcrafted pizzas • Simple menu • Fine ingredients</p>
+      </div>
 
-<header>Bella Pizza Menu</header>
+      <div>
+        <button id="openCart" class="cart-btn" aria-label="Open cart">
+          <span>Cart</span>
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </header>
 
-<div class="menu">
-    <div class="item">
-        <img src="https://images.unsplash.com/photo-1601924582971-df4be0d9f4b7?auto=format&fit=crop&w=800&q=80" alt="Margherita Pizza">
-        <h3>Margherita</h3>
-        <p>Classic pizza with tomato sauce, mozzarella and fresh basil.</p>
-        <button onclick="orderItem('Margherita')">Order Now</button>
+    <main>
+      <section class="menu" id="menu">
+        <!-- Menu items rendered by JS -->
+      </section>
+    </main>
+  </div>
+
+  <!-- Cart drawer -->
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-header">
+      <div style="font-weight:800">Your Order</div>
+      <div style="color:var(--muted); font-size:13px" id="cartStatus">0 items</div>
     </div>
 
-    <div class="item">
-        <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be3d?auto=format&fit=crop&w=800&q=80" alt="Pepperoni Pizza">
-        <h3>Pepperoni</h3>
-        <p>Loaded with mozzarella and spicy pepperoni slices.</p>
-        <button onclick="orderItem('Pepperoni')">Order Now</button>
+    <div class="cart-list" id="cartList">
+      <!-- cart items here -->
     </div>
 
-    <div class="item">
-        <img src="https://images.unsplash.com/photo-1628840042765-356c99e4abfd?auto=format&fit=crop&w=800&q=80" alt="Veggie Pizza">
-        <h3>Vegetarian</h3>
-        <p>Fresh peppers, onions, olives, mushrooms and tomato sauce.</p>
-        <button onclick="orderItem('Vegetarian')">Order Now</button>
+    <div class="cart-footer">
+      <div class="total" id="cartTotal">$0.00</div>
+      <div style="display:flex; gap:8px;">
+        <button id="clearCart" class="checkout-btn" title="Clear cart">Clear</button>
+        <button id="checkout" class="checkout-btn">Checkout</button>
+      </div>
     </div>
+  </aside>
 
-    <div class="item">
-        <img src="https://images.unsplash.com/photo-1585238341989-1e7a8e1af9a4?auto=format&fit=crop&w=800&q=80" alt="Four Cheese Pizza">
-        <h3>Four Cheese</h3>
-        <p>Blend of mozzarella, parmesan, gorgonzola and ricotta.</p>
-        <button onclick="orderItem('Four Cheese')">Order Now</button>
+  <!-- Modal -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">Order summary</h2>
+      <div class="lines" id="modalLines"></div>
+      <div class="actions">
+        <button class="secondary" id="modalCancel">Cancel</button>
+        <button class="primary" id="modalConfirm">Confirm Order</button>
+      </div>
     </div>
-</div>
-
-<footer>© 2025 Bella Pizza. All rights reserved.</footer>
+  </div>
 
 <script>
-    function orderItem(itemName) {
-        alert("You ordered: " + itemName);
-    }
-</script>
+  /* ===== sample menu data ===== */
+  const MENU = [
+    { id: 'm1', name: 'Margherita', desc: 'San Marzano tomatoes, fior di latte, basil', price: 12.50 },
+    { id: 'm2', name: 'Pepperoni', desc: 'House pepperoni, fior di latte, oregano', price: 14.75 },
+    { id: 'm3', name: 'Prosciutto & Arugula', desc: 'Prosciutto di Parma, arugula, shaved parm', price: 16.50 },
+    { id: 'm4', name: 'Four Cheese', desc: 'Mozzarella, parmesan, gorgonzola, ricotta', price: 15.25 },
+    { id: 'm5', name: 'Vegetarian', desc: 'Seasonal vegetables, olives, ricotta', price: 13.95 },
+    { id: 'm6', name: 'Diavola', desc: 'Spicy salami, chili honey drizzle', price: 15.95 }
+  ];
 
+  /* ===== state and storage helpers ===== */
+  const STORAGE_KEY = 'bella_pizza_cart_v1';
+  function loadCart(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e){ return {}; } }
+  function saveCart(cart){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+
+  let cart = loadCart();
+
+  /* ===== render menu ===== */
+  const menuEl = document.getElementById('menu');
+  function renderMenu(){
+    menuEl.innerHTML = '';
+    MENU.forEach(item => {
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div>
+          <h3 class="title">${escapeHtml(item.name)}</h3>
+          <p class="desc">${escapeHtml(item.desc)}</p>
+        </div>
+        <div class="meta" style="margin-top:12px">
+          <div>
+            <div class="price">$${item.price.toFixed(2)}</div>
+          </div>
+          <div>
+            <button class="btn" data-id="${item.id}">Add</button>
+          </div>
+        </div>
+      `;
+      menuEl.appendChild(el);
+    });
+  }
+
+  /* ===== cart rendering ===== */
+  const cartCountEl = document.getElementById('cartCount');
+  const cartListEl = document.getElementById('cartList');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartStatusEl = document.getElementById('cartStatus');
+
+  function getCartItems(){
+    // convert cart object to array with menu details
+    return Object.keys(cart).map(id => {
+      const menuItem = MENU.find(m => m.id === id);
+      return {
+        id,
+        qty: cart[id],
+        name: menuItem ? menuItem.name : 'Item',
+        price: menuItem ? menuItem.price : 0
+      };
+    });
+  }
+
+  function calcTotal(){
+    return getCartItems().reduce((s,it) => s + it.price * it.qty, 0);
+  }
+
+  function renderCart(){
+    const items = getCartItems();
+    cartListEl.innerHTML = '';
+    if(items.length === 0){
+      cartListEl.innerHTML = `<div style="color:var(--muted); padding:12px">Your cart is empty.</div>`;
+    } else {
+      items.forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `
+          <div class="left">
+            <div class="name">${escapeHtml(it.name)}</div>
+            <div class="sub">$${it.price.toFixed(2)} each</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px">
+            <div class="qty-controls" data-id="${it.id}">
+              <button data-action="dec" aria-label="Decrease">−</button>
+              <div class="qty-num">${it.qty}</div>
+              <button data-action="inc" aria-label="Increase">+</button>
+            </div>
+            <div style="min-width:68px; text-align:right; font-weight:700">$${(it.price * it.qty).toFixed(2)}</div>
+          </div>
+        `;
+        cartListEl.appendChild(row);
+      });
+    }
+
+    cartCountEl.textContent = Object.keys(cart).reduce((s,k)=>s+cart[k],0);
+    cartTotalEl.textContent = '$' + calcTotal().toFixed(2);
+    cartStatusEl.textContent = `${Object.keys(cart).reduce((s,k)=>s+cart[k],0)} item(s)`;
+    saveCart(cart);
+  }
+
+  /* ===== actions ===== */
+  function addToCart(id, qty = 1){
+    cart[id] = (cart[id] || 0) + qty;
+    renderCart();
+    openDrawer(); // give immediate feedback by showing the drawer
+    showTemporaryNotice('Added to cart');
+  }
+
+  function changeQty(id, delta){
+    if(!cart[id]) return;
+    cart[id] = Math.max(0, cart[id] + delta);
+    if(cart[id] === 0) delete cart[id];
+    renderCart();
+  }
+
+  function clearCart(){
+    cart = {};
+    renderCart();
+  }
+
+  /* ===== UI: drawer open/close ===== */
+  const cartDrawer = document.getElementById('cartDrawer');
+  const openCartBtn = document.getElementById('openCart');
+
+  function openDrawer(){
+    cartDrawer.classList.add('open');
+    cartDrawer.setAttribute('aria-hidden','false');
+  }
+  function closeDrawer(){
+    cartDrawer.classList.remove('open');
+    cartDrawer.setAttribute('aria-hidden','true');
+  }
+
+  openCartBtn.addEventListener('click', () => {
+    if(cartDrawer.classList.contains('open')) closeDrawer();
+    else openDrawer();
+  });
+
+  // close drawer when clicking outside on small screens
+  document.addEventListener('click', (e) => {
+    if(!cartDrawer.classList.contains('open')) return;
+    if(e.target.closest('.cart-drawer') || e.target.closest('#openCart')) return;
+    closeDrawer();
+  });
+
+  /* handle add buttons */
+  document.addEventListener('click', (e) => {
+    const add = e.target.closest('.btn[data-id]');
+    if(add){
+      const id = add.getAttribute('data-id');
+      addToCart(id, 1);
+    }
+  });
+
+  /* handle qty controls in cart */
+  cartListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    const parent = btn.closest('.qty-controls');
+    const id = parent.getAttribute('data-id');
+    const action = btn.getAttribute('data-action');
+    if(action === 'inc') changeQty(id, 1);
+    if(action === 'dec') changeQty(id, -1);
+  });
+
+  /* clear and checkout */
+  document.getElementById('clearCart').addEventListener('click', () => {
+    clearCart();
+    showTemporaryNotice('Cart cleared');
+  });
+
+  /* Checkout modal */
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalLines = document.getElementById('modalLines');
+  const modalCancel = document.getElementById('modalCancel');
+  const modalConfirm = document.getElementById('modalConfirm');
+  const checkoutBtn = document.getElementById('checkout');
+
+  checkoutBtn.addEventListener('click', () => {
+    const items = getCartItems();
+    if(items.length === 0){
+      showTemporaryNotice('Cart is empty');
+      return;
+    }
+    renderModal(items);
+    openModal();
+  });
+
+  function renderModal(items){
+    modalLines.innerHTML = '';
+    items.forEach(it => {
+      const el = document.createElement('div');
+      el.style.display = 'flex';
+      el.style.justifyContent = 'space-between';
+      el.style.marginBottom = '8px';
+      el.innerHTML = `<div style="color:var(--card); font-weight:700">${escapeHtml(it.name)} <span style="color:var(--muted); font-weight:600">x${it.qty}</span></div>
+                      <div style="color:var(--accent); font-weight:800">$${(it.price*it.qty).toFixed(2)}</div>`;
+      modalLines.appendChild(el);
+    });
+    const total = calcTotal();
+    const t = document.createElement('div');
+    t.style.display = 'flex';
+    t.style.justifyContent = 'space-between';
+    t.style.marginTop = '12px';
+    t.style.paddingTop = '12px';
+    t.style.borderTop = '1px solid rgba(255,255,255,0.03)';
+    t.innerHTML = `<div style="color:var(--muted); font-weight:700">Total</div>
+                   <div style="color:var(--card); font-weight:900">$${total.toFixed(2)}</div>`;
+    modalLines.appendChild(t);
+  }
+
+  function openModal(){ modalBackdrop.classList.add('open'); modalBackdrop.setAttribute('aria-hidden','false'); }
+  function closeModal(){ modalBackdrop.classList.remove('open'); modalBackdrop.setAttribute('aria-hidden','true'); }
+
+  modalCancel.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', (e) => {
+    if(e.target === modalBackdrop) closeModal();
+  });
+
+  modalConfirm.addEventListener('click', () => {
+    // simulate order submission
+    const orderSnapshot = getCartItems();
+    // here you would normally send to backend. We'll just show success and clear cart.
+    closeModal();
+    clearCart();
+    showTemporaryNotice('Order confirmed — thank you');
+  });
+
+  /* temporary notice (toast) */
+  let toastTimeout = null;
+  function showTemporaryNotice(text){
+    const already = document.querySelector('.temp-notice');
+    if(already) already.remove();
+    const n = document.createElement('div');
+    n.className = 'temp-notice';
+    n.style.position = 'fixed';
+    n.style.left = '50%';
+    n.style.transform = 'translateX(-50%)';
+    n.style.bottom = '22px';
+    n.style.padding = '10px 14px';
+    n.style.borderRadius = '10px';
+    n.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))';
+    n.style.border = '1px solid rgba(255,255,255,0.04)';
+    n.style.color = 'var(--card)';
+    n.style.fontWeight = '700';
+    n.style.zIndex = '120';
+    n.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+    n.textContent = text;
+    document.body.appendChild(n);
+    if(toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(()=> {
+      n.style.transition = 'opacity .25s ease';
+      n.style.opacity = '0';
+      setTimeout(()=> n.remove(),260);
+    }, 1800);
+  }
+
+  /* utility: escape text for safe insertion */
+  function escapeHtml(str){
+    if(!str) return '';
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  /* initial render */
+  renderMenu();
+  renderCart();
+
+  /* expose for debugging (optional) */
+  window.__bella = { menu:MENU, getCart:getCartItems, clearCart };
+
+</script>
 </body>
 </html>
