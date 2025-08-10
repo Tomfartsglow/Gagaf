@@ -6,38 +6,36 @@
 <title>Bella Pizza — Menu</title>
 <style>
   :root{
-    --bg:#0f1720;           /* deep slate */
-    --card:#f8f5f0;         /* warm cream */
-    --muted:#9aa3a8;        /* muted text */
-    --accent:#b08a48;       /* warm gold */
-    --accent-2:#c66a3e;     /* terracotta */
-    --glass: rgba(255,255,255,0.06);
+    --bg-1:#071018;
+    --bg-2:#0f1f24;
+    --panel:#f7f5f2;
+    --muted:#9aa3a8;
+    --accent:#b1884a;
+    --accent-2:#c65c3a;
+    --glass: rgba(255,255,255,0.04);
     --radius:14px;
     --gap:18px;
-    --elev: 0 10px 30px rgba(2,6,23,0.6);
+    --shadow: 0 18px 40px rgba(2,6,23,0.65);
   }
 
-  /* base */
   html,body{height:100%;}
   body{
     margin:0;
-    background: linear-gradient(180deg,var(--bg), #07101a 140%);
-    color:var(--card);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    padding:28px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,var(--bg-1), var(--bg-2));
+    color:var(--panel);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
-    line-height:1.4;
-    padding:28px;
     box-sizing:border-box;
+    line-height:1.4;
   }
 
-  /* container */
   .container{
     max-width:1100px;
     margin:0 auto;
   }
 
-  /* Header */
   header{
     display:flex;
     align-items:center;
@@ -45,6 +43,7 @@
     gap:16px;
     margin-bottom:24px;
   }
+
   .brand{
     display:flex;
     flex-direction:column;
@@ -53,9 +52,9 @@
   .brand h1{
     margin:0;
     font-size:20px;
-    color:var(--card);
-    letter-spacing:0.6px;
-    font-weight:600;
+    letter-spacing:0.4px;
+    font-weight:700;
+    color:var(--panel);
   }
   .brand p{
     margin:0;
@@ -63,19 +62,18 @@
     font-size:13px;
   }
 
-  /* Cart button */
   .cart-btn{
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.06);
-    color:var(--card);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.05);
+    color:var(--panel);
     padding:10px 14px;
     border-radius:10px;
     display:inline-flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
     cursor:pointer;
-    font-weight:600;
-    min-width:90px;
+    font-weight:700;
+    min-width:96px;
     justify-content:center;
   }
   .cart-count{
@@ -83,11 +81,22 @@
     color:#0b0b0b;
     padding:4px 8px;
     border-radius:999px;
-    font-weight:700;
+    font-weight:800;
     font-size:13px;
   }
 
-  /* Menu grid */
+  main > section{
+    margin-bottom:42px;
+  }
+  main > section > h2{
+    font-weight:900;
+    font-size:20px;
+    margin-bottom:12px;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom:6px;
+    letter-spacing:0.06em;
+  }
+
   .menu{
     display:grid;
     grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
@@ -98,11 +107,350 @@
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
     border-radius:var(--radius);
     padding:16px;
-    box-shadow: var(--elev);
+    box-shadow: var(--shadow);
     border:1px solid rgba(255,255,255,0.03);
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    min-height:150px;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .card:active{ transform: translateY(2px) scale(.998); }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 28px 60px rgba(2,6,23,0.7); }
+
+  .title{
+    font-size:16px;
+    color:var(--panel);
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  .desc{
+    color:var(--muted);
+    font-size:13px;
+    margin:0 0 10px 0;
+  }
+
+  .meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .price{
+    font-weight:800;
+    color:var(--accent);
+    font-size:16px;
+  }
+
+  .btn{
+    background: linear-gradient(90deg,var(--accent), var(--accent-2));
+    color:#0b0b0b;
+    border:none;
+    padding:10px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:800;
+    min-width:88px;
+    text-align:center;
+  }
+  .btn:active{ transform:translateY(1px); }
+
+  /* Cart drawer */
+  .cart-drawer{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:360px;
+    max-width:92%;
+    background: linear-gradient(180deg,#071318, #082027);
+    border-radius:12px;
+    box-shadow: 0 40px 100px rgba(2,6,23,0.7);
+    color:var(--panel);
+    overflow:hidden;
+    transform: translateY(20px) scale(.995);
+    transition: all .22s cubic-bezier(.2,.9,.25,1);
+    border:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    flex-direction:column;
+    z-index:60;
+    opacity:0;
+    pointer-events:none;
+  }
+  .cart-drawer.open{ opacity:1; pointer-events:auto; transform: translateY(0) scale(1); }
+
+  .cart-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    font-weight:800;
+  }
+  .cart-list{ padding:12px; max-height:320px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+
+  .cart-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background: rgba(255,255,255,0.01);
+    padding:10px;
+    border-radius:10px;
+  }
+  .cart-item .left{flex:1;}
+  .cart-item .name{ color:var(--panel); font-weight:700; font-size:14px; }
+  .cart-item .sub{ color:var(--muted); font-size:13px; margin-top:6px; }
+
+  .qty-controls{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background: rgba(255,255,255,0.02);
+    padding:6px;
+    border-radius:8px;
+  }
+  .qty-controls button{
+    background:transparent;
+    border:none;
+    color:var(--panel);
+    font-weight:700;
+    padding:6px 8px;
+    cursor:pointer;
+    font-size:15px;
+  }
+  .qty-num{ min-width:20px; text-align:center; font-weight:700; }
+
+  .cart-footer{
+    padding:12px 14px;
+    border-top:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .total{
+    color:var(--panel);
+    font-weight:800;
+    font-size:16px;
+  }
+  .checkout-btn{
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 12px;
+    border-radius:9px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  /* modal overlay */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background: rgba(2,6,23,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:80;
+    opacity:0;
+    pointer-events:none;
+    transition: all .18s ease;
+  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  .modal{
+    width:92%;
+    max-width:720px;
+    background: linear-gradient(180deg,#071317,#0d2326);
+    border-radius:12px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.04);
+    color:var(--panel);
+    box-shadow: 0 30px 70px rgba(2,6,23,0.7);
+  }
+  .modal h2{ margin:0 0 10px 0; font-size:18px; font-weight:800; }
+  .modal .lines{ margin:12px 0 20px; color:var(--muted); font-size:14px; max-height:320px; overflow:auto; }
+  .modal .actions{ display:flex; gap:10px; justify-content:flex-end; }
+  .modal .primary{
+    background: linear-gradient(90deg,var(--accent), var(--accent-2));
+    color:#0b0b0b;
+    border:none;
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:800;
+  }
+  .modal .secondary{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.06);
+    color:var(--panel);
+    padding:10px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  /* toast */
+  .toast{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:22px;
+    padding:10px 14px;
+    border-radius:10px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.04);
+    color:var(--panel);
+    font-weight:700;
+    z-index:90;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  }
+
+  @media (max-width:520px){
+    header{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .cart-drawer{ right:12px; left:12px; bottom:14px; width:auto; max-width:calc(100% - 24px); }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Bella Pizza</h1>
+        <p>Handcrafted pizzas — curated ingredients</p>
+      </div>
+
+      <div>
+        <button id="openCart" class="cart-btn" aria-label="Open cart">
+          <span>Cart</span>
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section aria-label="Pizzas" id="sectionPizzas">
+        <h2>Pizzas</h2>
+        <div class="menu" id="menuPizzas"></div>
+      </section>
+
+      <section aria-label="Customizations" id="sectionCustomizations">
+        <h2>Customizations</h2>
+        <div class="menu" id="menuCustomizations"></div>
+      </section>
+
+      <section aria-label="Drinks" id="sectionDrinks">
+        <h2>Drinks</h2>
+        <div class="menu" id="menuDrinks"></div>
+      </section>
+    </main>
+  </div>
+
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true" role="region" aria-label="Your Order Cart">
+    <div class="cart-header">
+      <div>Your Order</div>
+      <div id="cartStatus" style="color:var(--muted); font-size:13px">0 items</div>
+    </div>
+
+    <div class="cart-list" id="cartList"></div>
+
+    <div class="cart-footer">
+      <div class="total" id="cartTotal">$0.00</div>
+      <div style="display:flex; gap:8px;">
+        <button id="clearCart" class="checkout-btn" title="Clear cart">Clear</button>
+        <button id="checkout" class="checkout-btn">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal" role="document">
+      <h2 id="modalTitle">Order summary</h2>
+      <div class="lines" id="modalLines"></div>
+      <div class="actions">
+        <button class="secondary" id="modalCancel">Cancel</button>
+        <button class="primary" id="modalConfirm">Confirm Order</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Menu data split by sections
+  const MENU_PIZZAS = [
+    { id: 'pizza1', name: 'Margherita', desc: 'San Marzano tomatoes, fior di latte, basil', price: 12.50 },
+    { id: 'pizza2', name: 'Pepperoni', desc: 'House pepperoni, fior di latte, oregano', price: 14.75 },
+    { id: 'pizza3', name: 'Prosciutto & Arugula', desc: 'Prosciutto di Parma, arugula, shaved parm', price: 16.50 },
+    { id: 'pizza4', name: 'Four Cheese', desc: 'Mozzarella, parmesan, gorgonzola, ricotta', price: 15.25 },
+    { id: 'pizza5', name: 'Vegetarian', desc: 'Seasonal vegetables, olives, ricotta', price: 13.95 },
+    { id: 'pizza6', name: 'Diavola', desc: 'Spicy salami, chili honey drizzle', price: 15.95 }
+  ];
+  const MENU_CUSTOMIZATIONS = [
+    { id: 'custom1', name: 'Less Cheese', desc: 'Reduce cheese amount', price: -1.00 },
+    { id: 'custom2', name: 'Extra Cheese', desc: 'Add more cheese', price: 1.50 },
+    { id: 'custom3', name: 'Gluten-Free Crust', desc: 'Substitute crust', price: 2.00 },
+    { id: 'custom4', name: 'Add Mushrooms', desc: 'Fresh mushrooms topping', price: 1.25 },
+    { id: 'custom5', name: 'No Onions', desc: 'Remove onions', price: 0.00 }
+  ];
+  const MENU_DRINKS = [
+    { id: 'drink1', name: 'Sparkling Water', desc: '500ml bottle', price: 2.50 },
+    { id: 'drink2', name: 'Coke', desc: '330ml can', price: 3.00 },
+    { id: 'drink3', name: 'Red Wine Glass', desc: '150ml', price: 6.50 },
+    { id: 'drink4', name: 'Espresso', desc: 'Single shot', price: 3.75 }
+  ];
+
+  const STORAGE_KEY = 'bella_pizza_cart_v1';
+  function loadCart(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e){ return {}; } }
+  function saveCart(cart){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+
+  // Cart structure: { id: qty, ... }
+  let cart = loadCart();
+
+  const menuPizzasEl = document.getElementById('menuPizzas');
+  const menuCustomizationsEl = document.getElementById('menuCustomizations');
+  const menuDrinksEl = document.getElementById('menuDrinks');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartListEl = document.getElementById('cartList');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartStatusEl = document.getElementById('cartStatus');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const openCartBtn = document.getElementById('openCart');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalLines = document.getElementById('modalLines');
+  const modalCancel = document.getElementById('modalCancel');
+  const modalConfirm = document.getElementById('modalConfirm');
+  const checkoutBtn = document.getElementById('checkout');
+  const clearCartBtn = document.getElementById('clearCart');
+
+  // Escape html helper for security
+  function escapeHtml(str){
+    if(!str) return '';
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  // Render one section (array of items, target container)
+  function renderMenuSection(items, container){
+    container.innerHTML = '';
+    items.forEach(item => {
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div>
+          <h3 class="title">${escapeHtml(item.name)}</h3>
+          <p class="desc">${escapeHtml(item.desc)}</p>
+        </div>
+        <div class="meta" style="margin-top:12px">
+          <div>
+            <div class="price">${item.price < 0 ? '-$' + Math.abs(item.price).toFixed(2) : '$' + item.price.toFixed(2)}</div>
+          </div>
+          <div>
+            <button class="btn" data-id="${item.id}" aria-label="Add ${escapeHtml(item.name)} to cart">Add</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(el);
+    });
+  }
+
+  // Get all menu items combined for lookup by id    justify-content:space-between;
     min-height:150px;
     transition: transform .18s ease, box-shadow .18s ease;
   }
